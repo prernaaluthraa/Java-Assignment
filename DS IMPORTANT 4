@@ -1,0 +1,33 @@
+import java.util.HashMap;
+import java.util.Scanner;
+public class BoardingPasses {
+  static HashMap<Integer,String>hm=new HashMap<Integer,String>();
+public static void check(int num)
+{
+  if(hm.containsKey(num))
+  {
+     System.out.println("Duplcate");
+  }
+  else
+  {
+     System.out.println("Checked");
+     hm.put(num, "Checked");
+  }
+}
+  public static void main(String[] args) {
+ 
+    
+     Scanner sc=new Scanner(System.in);
+     System.out.println("Enter the number of passengers:");
+     int n=sc.nextInt();
+     System.out.println("Enter their Boarding Pass numbers:");
+     for(int i=0;i<n;i++)
+     {
+        int num=sc.nextInt();
+        check(num);
+     }
+
+  }
+
+}
+
