@@ -1,0 +1,312 @@
+import java.util.Scanner;
+class Node
+{
+  int key;
+  String value;
+  Node next;
+  Node(int k,String v)
+  {
+     key=k;
+     value=v;
+  }
+ 
+ 
+}
+public class KeyValue{
+static Node head=null;
+
+public static Node insert(Node head,int k,String v)
+{
+  Node newNode=new Node(k,v);
+  if(head==null)
+  {
+     head=newNode;
+     System.out.println("Key and value inserted");
+     return head;
+  }
+  else
+  {
+     Node temp=head;
+     Node temp1=head;
+     while(temp!=null && temp.key!=k)
+     {
+        temp=temp.next;
+     }
+     if(temp!=null)
+     {
+        System.out.println("Duplicate key value");
+     }
+     else
+     {
+        while(temp1.next!=null)
+        {
+           temp1=temp1.next;
+        }
+        temp1.next=newNode;
+        newNode.next=null;
+        System.out.println("Key and value inserted");
+     }
+  }
+  return head;
+}
+public static void display(Node head)
+{
+  if(head==null)
+  {
+     System.out.println("Nothing to display");
+  }
+  else
+  {
+     Node temp=head;
+     while(temp!=null)
+     {
+        System.out.println(temp.key+":"+temp.value);
+        temp=temp.next;
+     }
+  }
+}
+public static Node deletekey(Node head,int k)
+{
+  Node current=head,prev=null;
+  if(current==null)
+  {
+     System.out.println("LL is Empty");
+  }
+  else if(current.next==null && current.key==k)
+  {
+     head=null;
+     System.out.println("Key is deleted");
+  }
+  else if(current.next!=null && current.key==k)
+  {
+     head=current.next;
+     System.out.println("Key is deleted");
+  }
+  else
+  {
+     while(current!=null)
+     {
+        if(current.key==k)
+        {
+           prev.next=current.next;
+           System.out.println("Key is deleted");
+           break;
+        }
+        else
+        {
+           prev=current;
+           current=current.next;
+        }
+     }
+     if(current==null)
+     {
+        System.out.println("Key doesn't exist");
+     }
+  }
+ 
+  return head;
+}
+public static Node deletevalue(Node head,String v)
+{
+  Node temp=head;
+  int flag=0;
+  if(head==null)
+  {
+     System.out.println("LL is Empty");
+     flag=1;
+  }
+  else
+  {
+  while(temp!=null)
+  {
+     Node current=head,prev=null;
+   if(current.next==null && current.value.equals(v))
+  {
+     head=null;
+     flag=1;
+     System.out.println("Value is deleted");
+     break;
+  }
+  else if(current.next!=null && current.value.equals(v))
+  {
+     head=current.next;
+     System.out.println("Value is deleted");
+     flag=1;
+  }
+  else
+  {
+     while(current!=null)
+     {
+        if(current.value.equals(v))
+        {
+           prev.next=current.next;
+           flag=1;
+           System.out.println("Value is deleted");
+           break;
+        }
+        else
+        {
+           prev=current;
+           current=current.next;
+        }
+     }
+     if(flag==0)
+     {
+        System.out.println("Value doesn't exist");
+        break;
+     }
+  }
+  temp=temp.next;
+ 
+  }
+  }
+ 
+  return head;
+}
+public static Node deleteboth(Node head,int k,String v)
+{
+  Node current=head,current1=head;
+  Node prev=null;
+  if(head==null)
+  {
+     System.out.println("LL is empty");
+  }
+  else if(current.next==null && current.key==k)
+  {
+     if(current.value.equals(v))
+     {
+        head=null;
+        System.out.println("Pair is deleted");
+     }
+     else {
+        System.out.println("Value doesn't match the key");
+     }
+    
+  }
+  else if(current.next!=null && current.key==k)
+  {
+
+     if(current.value.equals(v))
+     {
+        System.out.println("Pair is deleted");
+        head=current.next;
+     }
+     else {
+        System.out.println("Value doesn't match the key");
+     }
+    
+  }
+  else
+  {
+     while(current1!=null)
+     {
+        if(current1.key==k)
+        {
+           if(current1.value.equals(v))
+           {
+           prev.next=current1.next;
+           System.out.println("Pair is deleted");
+           break;
+           }
+           else {
+              System.out.println("Value doesn't match the key");
+              break;
+           }
+          
+        }
+        else
+        {
+           prev=current1;
+           current1=current1.next;
+        }
+     }
+  }
+  if(current1==null)
+  {
+     System.out.println("Pair doesn't exist");
+  }
+  return head;
+}
+
+  public static void main(String[] args) {
+     Scanner sc=new Scanner(System.in);
+     String option1, option2;
+     option2 = "yes";
+     while (option2.equals("yes")) {
+        System.out.println("Enter 1 to insert the key and value");
+        System.out.println("Enter 2 to delete by key");
+        System.out.println("Enter 3 to delete by value");
+        System.out.println("Enter 4 to delete by both");
+        System.out.println("Enter 5 to display");
+        option1 = sc.next();
+        switch (option1) {
+        case "1":
+           System.out.println("Enter the key:");
+           int num1 = sc.nextInt();
+           System.out.println("Enter the value:");
+           String value = sc.next();
+           head=insert(head,num1,value);
+           break;
+        case "2":
+           System.out.println("Enter the key you want to delete:");
+           int index1 = sc.nextInt();
+           head=deletekey(head, index1);
+           break;
+        case "3":
+           System.out.println("Enter the value you want to delete:");
+           String val= sc.next();
+           head=deletevalue(head, val);
+           break;
+        case "4":
+           System.out.println("Enter the key:");
+           int key1=sc.nextInt();
+           System.out.println("Enter the value:");
+           String val1= sc.next();
+           head=deleteboth(head, key1,val1);
+           break;
+        case "5":
+           display(head);
+           break;
+        default:
+           System.out.println("Invalid Input:");
+
+        }
+        System.out.println("Whether you want to continue,enter yes or no");
+        option2 = sc.next();
+        if (option2.equals("yes") || option2.equals("no")) {
+           continue;
+        }
+        else {
+           System.out.println("Enter valid choice:");
+           while (!option2.equals("yes")) {
+              option2 = sc.next();
+              if (option2.equals("no"))
+                 break;
+              else
+                 System.out.println("Enter valid choice:");
+           }
+
+        }
+
+     }
+     System.out.println("**PROGRAM FINISHED**");
+  }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
