@@ -1,0 +1,46 @@
+boolean detectLoop()
+    {
+        Node slow = head;
+        Node fast = head;
+
+        while(slow !=null && fast!=null && fast.next!=null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(slow == fast)
+            {
+                removeLoop(slow);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void removeLoop(Node slow) 
+    { 
+        Node ptr1 = slow; 
+        Node ptr2 = slow; 
+    
+        int k = 1, i; 
+        while (ptr1.next != ptr2) { 
+            ptr1 = ptr1.next; 
+            k++; 
+        } 
+    
+        ptr1 = head; 
+    
+        ptr2 = head; 
+        for (i = 0; i < k; i++) 
+            ptr2 = ptr2.next; 
+    
+        while (ptr2 != ptr1) { 
+            ptr1 = ptr1.next; 
+            ptr2 = ptr2.next; 
+        } 
+    
+        while (ptr2.next != ptr1) 
+            ptr2 = ptr2.next; 
+    
+        ptr2.next = null; 
+    }
