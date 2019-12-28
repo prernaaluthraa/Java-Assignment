@@ -1,0 +1,71 @@
+package trees;
+
+public class PrintTreeDiagonally {
+	
+	static Node root;
+	static class Node{
+		int data;
+		Node left,right;
+		Node(int d){
+			data = d;
+			left = null;
+			right = null;
+		}
+	}
+	 static int min=0;
+	 static int max=0;
+	public static void MinMax(Node root,int hd) {
+		
+		if(root==null) {
+			return;
+		}
+		if(hd<min) {
+			min=hd;
+		}
+		else if(hd>max) {
+			max=hd;
+		}
+		MinMax(root.left, hd);
+		MinMax(root.right, hd+1);
+	}
+	public static void print(Node root,int i,int hd) {
+		
+		if(root==null) {
+			return;
+		}
+		if(hd==i) {
+			System.out.print(root.data+" ");
+		}
+		print(root.left, i, hd);
+		print(root.right, i, hd+1);
+		
+	}
+	
+	public static void diagonal() {
+		
+		MinMax(root, 0);
+		
+		for(int i=0;i<=max;i++) {
+			print(root, i, 0);
+			System.out.println();
+		}
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		PrintTreeDiagonally b = new PrintTreeDiagonally();
+		root=new Node(1);
+		root.left=new Node(2);
+		root.right=new Node(3);
+		root.left.left=new Node(4);
+		root.left.right=new Node(5);
+		root.right.left=new Node(6);
+		root.right.right=new Node(7);
+
+		b.diagonal();
+		
+	}
+
+}
