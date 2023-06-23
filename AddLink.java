@@ -1,103 +1,67 @@
-package questionsK;
-import java.util.*;
-public class addLink
-{
-	static class Node
-	{
-		Node next;
-		int data;
-		Node(int data)
-		{
-			this.data=data;
-		}
-	}
-	static Node head,head1;
-	void insert(int data)
-	{
-		Node tem=new Node(data);
-		if(head==null)
-		{
-			head=tem;
-			return;
-		}
-		Node current=head;
-		while(current.next!=null)
-		{
-			current=current.next;
-		}
-		current.next=tem;
-	}
-	void insert1(int data)
-	{
-		Node tem=new Node(data);
-		if(head1==null)
-		{
-			head1=tem;
-			return;
-		}
-		Node current=head1;
-		while(current.next!=null)
-		{
-			current=current.next;
-		}
-		current.next=tem;
-	}
-	void print(Node h)
-	{
-		Node cur=h;
-		while(cur!=null)
-		{
-			System.out.print(cur.data+" ");
-			cur=cur.next;
-		}
-		System.out.println();
-	}
-	static Node add(Node a,Node b)
-	{
-		Node prev=null;
-		Node n=null,n1=null;
-		int carry=0,sum;
-		while(a!=null||b!=null)
-		{
-			sum=carry+(a!=null?a.data:0)+(b!=null?b.data:0);
-			carry=(sum>=10)?1:0;
-			sum=sum%10;
-			n=new Node(sum);
-			if(n1==null)
-				n1=n;
-			else
-			{
-				prev.next=n;
-			}
-			prev=n;
-			if(a!=null)
-				a=a.next;
-			if(b!=null)
-				b=b.next;
-		}
-		if(carry>0)
-			n.next=new Node(carry);
-		return n1;
-	}
-	public static void main(String args[])
-	{
-		addLink a=new addLink();
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Enter the size of first list");
-		int size=sc.nextInt();
-		for(int i=0;i<size;i++)
-		{
-			a.insert(sc.nextInt());
-		}
-		a.print(a.head);
-		System.out.println("Enter the size of second list");
-		int size1=sc.nextInt();
-		for(int i=0;i<size1;i++)
-		{
-			a.insert1(sc.nextInt());
-		}
-		a.print(a.head1);
-		Node h=add(head,head1);
-		a.print(h);
-	}
-}
+import os
+import time
+import csv
+
+rpa_path = "/application/RPA"
+folders_to_check = ["LOGS", "SCREENSHOTS", "ARCHIVE", "OUT"]
+three_days_ago = time.time() - (180 * 24 * 60 * 60)
+log_count=0
+screenshot_count=0
+others_count=0
+size=0
+
+output_filename = "/application/RPA/COMMON/CleanupFiles/LOGS/output_" + time.strftime("%Y%m%d-%H%M%S") + ".csv"
+with open(output_filename, 'w', newline='') as csvfile:
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(["Action", "File Path", "Modification Date"])
+
+    for root, dirs, files in os.walk(rpa_path):
+        for folder_name in folders_to_check:
+            if folder_name in dirs:
+                folder_path = os.path.join(root, folder_name)
+                csvwriter.writerow(["Checking", folder_path, ""])
+
+                if folder_name == "LOGS":
+                    runlogs_path = os.path.join(folder_path, "RUNLOGS")
+                    if os.path.exists(runlogs_path):
+                        for filename in os.listdir(runlogs_path):
+                            file_path = os.path.join(runlogs_path, filename)
+                            if os.path.isfile(file_path) and os.path.getmtime(file_path) < three_days_ago:
+                                mod_time = os.path.getmtime(file_path)
+                                mod_date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mod_time))
+                                csvwriter.writerow(["File path:", file_path, mod_date])
+                                log_count+=1
+
+                                #os.remove(file_path)
+                    else:
+                        pass 
+
+                            
+
+                elif folder_name== "SCREENSHOTS":
+                    print(folder_path)
+                    for root,dirs,files in os.walk(folder_path,topdown=True):
+                        for file in files:
+                            file_path=os.path.abspath(os.path.join(root, file))
+                            
+                            if os.path.isfile(file_path) and os.path.getmtime(file_path) < three_days_ago:
+                                mod_time = os.path.getmtime(file_path)
+                                mod_date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mod_time))
+                                csvwriter.writerow(["File path", file_path, mod_date])
+                                print(file)
+                                screenshot_count+=1
+                                #os.remove(file_path)
+                            
+                            else:
+                                pass
+           
+                else:
+                    for filename in os.listdir(folder_path):
+                        file_path = os.path.join(folder_path, filename)
+                        if os.path.isfile(file_path) and os.path.getmtime(file_path) < three_days_ago:
+                            mod_time = os.path.getmtime(file_path)
+                            mod_date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mod_time))
+                            csvwriter.writerow(["File path", file_path, mod_date])
+                            others_count+=1
+
+                            #os.remove(file_path) 
