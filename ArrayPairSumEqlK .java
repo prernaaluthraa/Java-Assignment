@@ -7,6 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
+
 class Obj:
     def __init__(self,CofigPath):
         
@@ -135,7 +136,7 @@ class Obj:
             raise
     #email part
     def sendOutlookMail(obj):
-        port = int(obj.config['ExchangePort'])  # For SSL
+        port = int(obj.config['ExchangePort'])
         SERVER = obj.config['ExchangeServer']
         msg=MIMEMultipart('alternative')
         asset=obj.get_password(obj.config['asset_email'])
@@ -174,12 +175,12 @@ def main():
     
     try:
         #call functions here
+        obj.cleanup()
+        obj.sendOutlookMail()
     finally:
-        mail.sendOutlookMail(obj)
-    print("Execution Completed Successfully!")
+
+        print("Execution Completed Successfully!")
 
 if __name__=="__main__":
-    display=Display(visible=0,size=(1366,768))
-    display.start()
+
     main()
-    display.stop()
