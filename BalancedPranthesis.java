@@ -1,46 +1,7 @@
-package questionsK;
-import java.util.*;
-public class balancedParenthesis 
-{
-	String s1="";
-	void input()
-	{
-		System.out.println("Enter the String");
-		Scanner sc=new Scanner(System.in);
-		s1=sc.next();
-		Stack<Character> s=new Stack<Character>();
-		char[] a=s1.toCharArray();
-		int flag=0;
-		for(int i=0;i<a.length;i++)
-		{
-			if(a[i]=='('||a[i]=='['||a[i]=='{')
-				s.push(a[i]);
-			else if((a[i]==')'||a[i]=='}'||a[i]==']')&&s.empty())
-			{
-				flag=1;
-				break;
-			}
-			else if(a[i]==')'&&s.peek()=='(')
-				s.pop();
-			else if(a[i]=='}'&&s.peek()=='{')
-				s.pop();
-			else if(a[i]==']'&&s.peek()=='[')
-				s.pop();
-			else if(a[i]=='}'||a[i]==']'||a[i]==')')
-			{
-				flag=1;
-				break;
-			}
-		}
-		if(flag==0&&s.empty())
-			System.out.println("Balanced");
-		else
-			System.out.println("Unbalanced");
-	}
-	public static void main(String args[])
-	{
-		balancedParenthesis p=new balancedParenthesis();
-		p.input();
-	}
+subject = 'Disk Storage Information'
+body = f"Disk Storage Before Script Execution:\nTotal: {total_before_str}\nFree: {free_before_str}\n\n" \
+       f"Disk Storage After Script Execution:\nTotal: {total_after_str}\nUsed: {used_after_str}\nFree: {free_after_str}\n\n" \
+       f"The CSV file '{output_filename}' is created at the below path:\n{os.path.abspath(output_filename)}"
+attachments = [output_filename]  # Add any attachments here
 
-}
+send_email(subject, body, sender_email, recipient_emails, cc_emails, attachments)
