@@ -45,6 +45,9 @@ def send_outlook_mail(self):
             BODY += f"\nTotal: {total_before_str}"
             BODY += f"\nFree: {free_before_str}"
 
+            output_file_path = "/application/RPA/COMMON/CleanupFiles/LOGS/output_" + time.strftime("%Y%m%d-%H%M%S") + ".csv"
+            BODY += "Output File Path: " + output_file_path
+
         BODY += disclamer
         msg.attach(MIMEText(BODY, 'plain'))
         msg.attach(MIMEText(BODY, 'html'))
